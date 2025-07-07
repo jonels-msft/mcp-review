@@ -162,8 +162,28 @@ Add this server to your MCP configuration to use it with VS Code Copilot. The se
 
 ## Development
 
+### Running the Server
 - `npm start` - Run the server
 - `npm run dev` - Run in development mode
+
+### Testing
+- `npm test` - Run all test suites
+- `npm run test:mcp` - Run MCP protocol validation
+- `npm run test:comprehensive` - Run comprehensive feature tests
+
+### Utilities
+- `npm run status` - Display server capabilities and status
+- `npm run check` - Check VS Code integration readiness
+
+### Project Structure
+```
+mcp-review/
+├── src/           # Server implementation
+├── tests/         # Test suites
+├── scripts/       # Utility scripts  
+├── ai-review/     # Critic and fixer frameworks (submodule)
+└── README.md      # This file
+```
 
 ## Credit
 

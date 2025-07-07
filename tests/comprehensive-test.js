@@ -19,7 +19,7 @@ class MCPTester {
 
   async startServer() {
     return new Promise((resolve, reject) => {
-      const serverPath = join(__dirname, 'src', 'index.js');
+      const serverPath = join(__dirname, '..', 'src', 'index.js');
       this.server = spawn('node', [serverPath], {
         stdio: ['pipe', 'pipe', 'pipe']
       });

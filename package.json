@@ -6,7 +6,12 @@
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "node src/index.js"
+    "dev": "node src/index.js",
+    "test": "node tests/run-all.js",
+    "test:comprehensive": "node tests/comprehensive-test.js",
+    "test:mcp": "node tests/validate-mcp.js",
+    "status": "node scripts/status.js",
+    "check": "node scripts/integration-check.js"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0"
