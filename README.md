@@ -1,13 +1,14 @@
 # MCP Review Server
 
-A comprehensive Model Context Protocol (MCP) server that provides specialized code review capabilities using expert critic frameworks.
+A comprehensive Model Context Protocol (MCP) server that provides specialized code review capabilities using expert critic frameworks, plus automated fixing strategies to address identified issues.
 
 ## Features
 
 - **36+ Specialized Critics**: Each critic focuses on specific aspects of code quality
-- **Explicit Invocation**: Users explicitly choose which critic to apply to their code
-- **Expert Frameworks**: Uses proven critic methodologies from ai-review repository
-- **Clean Integration**: Leverages VS Code Copilot's agentic capabilities for file reading
+- **3 Fixing Strategies**: Automated approaches to address critic findings
+- **Explicit Invocation**: Users explicitly choose which critic or fixer to apply to their code
+- **Expert Frameworks**: Uses proven methodologies from ai-review repository
+- **Two-Step Workflow**: Critique first, then apply appropriate fixing strategy
 
 ## Setup
 
@@ -28,9 +29,12 @@ A comprehensive Model Context Protocol (MCP) server that provides specialized co
    npm start
    ```
 
-## Available Critics
+## Available Tools
 
-The server automatically loads all critic frameworks from the `ai-review/critic` directory and exposes them as tools. Each critic is available as `critique_<critic-name>`:
+The server automatically loads all critic frameworks from the `ai-review/critic` directory and fixer strategies from the `ai-review/fixer` directory. 
+
+### Critic Tools
+Each critic is available as `critique_<critic-name>`:
 
 ### Design & UI Critics
 - `critique_design` - UI and user experience review
@@ -83,12 +87,46 @@ The server automatically loads all critic frameworks from the `ai-review/critic`
 - `critique_logicism` - Formal logic and reasoning
 - `critique_taylorism` - Workflow and efficiency analysis
 
+### Fixer Tools
+Each fixer strategy is available as `fix_<strategy-name>`:
+
+- `fix_comment` - Add TODO comments marking issues for later fixing
+- `fix_conservative` - Fix only clear-cut, low-risk issues that won't require cascading changes
+- `fix_zealot` - Pick one important issue and fix it comprehensively, even if it requires major reorganization
+
+## Workflow
+
+The typical workflow involves two steps:
+
+1. **Critique**: Use a critic tool to analyze code and identify issues
+2. **Fix**: Apply a fixer strategy to address the identified problems
+
+### Step 1: Critique Code
+```
+"Use critique_design to review this React component"
+"Apply critique_c-memory to analyze this malloc usage" 
+"Run critique_sql-security on this database query"
+```
+
+### Step 2: Apply Fixes
+```
+"Use fix_conservative to address the issues found"
+"Apply fix_comment to mark the problems for later"
+"Use fix_zealot to completely fix the memory management issue"
+```
+
 ## Usage
 
-### Parameters (all critics)
+### Critic Tool Parameters
 - `code` (required): The code or project content to review
 - `language` (optional): Programming language or context (default: "unknown") 
 - `filePath` (optional): Path to the file being reviewed
+
+### Fixer Tool Parameters
+- `code` (required): The original code that was reviewed
+- `critiqueResults` (required): The results from the critic analysis
+- `language` (optional): Programming language or context (default: "unknown")
+- `filePath` (optional): Path to the file being fixed
 
 ### Example Usage with VS Code Copilot
 
@@ -101,14 +139,26 @@ The server automatically loads all critic frameworks from the `ai-review/critic`
 
 ## How It Works
 
+### Critic Tools
 1. **Explicit Selection**: Users explicitly request a specific critic by name
 2. **Framework Embedding**: The complete critic framework content is included in the prompt
 3. **Code Analysis**: The critic framework is applied to analyze the provided code  
-4. **Comprehensive Review**: Results follow the specific methodology of the chosen critic
+4. **Issue Identification**: Results include specific problems and suggestions
+
+### Fixer Tools
+1. **Strategy Selection**: Users choose a fixing approach (comment, conservative, or zealot)
+2. **Context Integration**: The fixer receives both the original code and critic results
+3. **Strategic Application**: The chosen strategy is applied to address the identified issues
+4. **Code Generation**: Returns modified code or instructions based on the strategy
 
 ## Integration with VS Code Copilot
 
-Add this server to your MCP configuration to use it with VS Code Copilot. When a critic tool is invoked, the server provides the complete critic framework content along with the code to be reviewed, ensuring the agent has all necessary context regardless of the user's project workspace.
+Add this server to your MCP configuration to use it with VS Code Copilot. The server provides:
+
+1. **Critic Tools**: Comprehensive analysis using specialized frameworks
+2. **Fixer Tools**: Automated approaches to address identified issues
+3. **Complete Context**: All necessary framework content and analysis results included in prompts
+4. **Flexible Workflow**: Choose the appropriate critic and fixer combination for your needs
 
 ## Development
 

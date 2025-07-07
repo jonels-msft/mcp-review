@@ -12,6 +12,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const CRITICS_DIR = join(__dirname, '..', 'ai-review', 'critic');
+const FIXERS_DIR = join(__dirname, '..', 'ai-review', 'fixer');
 
 // Load available critics from the critic directory
 function loadCritics() {
@@ -38,7 +39,33 @@ function loadCritics() {
   }
 }
 
+// Load available fixers from the fixer directory
+function loadFixers() {
+  try {
+    const fixerFiles = readdirSync(FIXERS_DIR).filter(file => file.endsWith('.md'));
+    const fixers = {};
+    
+    for (const file of fixerFiles) {
+      const fixerName = basename(file, '.md');
+      const fixerPath = join(FIXERS_DIR, file);
+      const fixerContent = readFileSync(fixerPath, 'utf-8');
+      
+      fixers[fixerName] = {
+        name: fixerName,
+        description: `Apply ${fixerName} fixing strategy to address critic issues`,
+        content: fixerContent
+      };
+    }
+    
+    return fixers;
+  } catch (error) {
+    console.error('Error loading fixers:', error);
+    return {};
+  }
+}
+
 const critics = loadCritics();
+const fixers = loadFixers();
 
 // Create MCP server
 const server = new Server(
@@ -55,7 +82,7 @@ const server = new Server(
 
 // List available tools
 server.setRequestHandler(ListToolsRequestSchema, async () => {
-  const tools = Object.values(critics).map(critic => ({
+  const criticTools = Object.values(critics).map(critic => ({
     name: `critique_${critic.name}`,
     description: critic.description,
     inputSchema: {
@@ -79,7 +106,35 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     },
   }));
 
-  return { tools };
+  const fixerTools = Object.values(fixers).map(fixer => ({
+    name: `fix_${fixer.name}`,
+    description: fixer.description,
+    inputSchema: {
+      type: 'object',
+      properties: {
+        code: {
+          type: 'string',
+          description: 'The original code that was reviewed',
+        },
+        critiqueResults: {
+          type: 'string',
+          description: 'The results from the critic analysis (issues, suggestions, etc.)',
+        },
+        language: {
+          type: 'string',
+          description: 'Programming language or context of the code',
+          default: 'unknown',
+        },
+        filePath: {
+          type: 'string',
+          description: 'Optional: Path to the file being fixed',
+        }
+      },
+      required: ['code', 'critiqueResults'],
+    },
+  }));
+
+  return { tools: [...criticTools, ...fixerTools] };
 });
 
 // Handle tool calls
@@ -110,6 +165,30 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     };
   }
 
+  // Check if this is a fixer tool
+  if (name.startsWith('fix_')) {
+    const fixerName = name.replace('fix_', '');
+    const fixer = fixers[fixerName];
+    
+    if (!fixer) {
+      throw new Error(`Unknown fixer: ${fixerName}`);
+    }
+
+    const { code, critiqueResults, language = 'unknown', filePath = 'unknown' } = args;
+    
+    // Apply the fixing strategy to address the critic's issues
+    const fixedCode = performFix(fixer, code, critiqueResults, language, filePath);
+    
+    return {
+      content: [
+        {
+          type: 'text',
+          text: fixedCode,
+        },
+      ],
+    };
+  }
+
   throw new Error(`Unknown tool: ${name}`);
 });
 
@@ -131,6 +210,31 @@ ${code}
 \`\`\`
 
 Apply the critic framework above to provide a thorough code review.`;
+
+  return prompt;
+}
+
+// Perform fix using the specified fixer strategy
+function performFix(fixer, code, critiqueResults, language, filePath) {
+  // Include the fixer strategy content directly
+  const prompt = `Apply the ${fixer.name} fixing strategy to address the issues identified by the critic.
+
+## ${fixer.name} Fixer Strategy:
+${fixer.content}
+
+## Original Code:
+**File:** ${filePath}
+**Language:** ${language}
+
+\`\`\`${language}
+${code}
+\`\`\`
+
+## Critic Analysis Results:
+${critiqueResults}
+
+## Instructions:
+Apply the ${fixer.name} strategy above to fix the code based on the critic's findings. Return the modified code with appropriate changes according to the strategy.`;
 
   return prompt;
 }
