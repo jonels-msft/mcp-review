@@ -1,0 +1,21 @@
+{
+  "name": "mcp-review-server",
+  "version": "1.0.0",
+  "description": "A minimal MCP server with a single skill",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node src/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "copilot"
+  ],
+  "author": "",
+  "license": "MIT"
+}

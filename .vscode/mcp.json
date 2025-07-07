@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "mcp-review-server": {
+      "command": "node",
+      "args": ["src/index.js"],
+      "env": {}
+    }
+  }
+}
