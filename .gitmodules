@@ -1,0 +1,3 @@
+[submodule "ai-review"]
+	path = ai-review
+	url = https://dev.begriffs.com/git/ai-review
