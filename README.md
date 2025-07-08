@@ -1,17 +1,17 @@
-# MCP Review Server
+# Specialized Code Review Tools for Copilot
 
-A comprehensive Model Context Protocol (MCP) server that provides specialized code review capabilities using expert critic frameworks and automated fixing strategies to address identified issues.
+A Model Context Protocol (MCP) server that provides specialized code review capabilities using established critic methodologies and fixing strategies to address identified issues.
 
-## Example usagage
+## Example Usage
 
-The typical workflow involves two steps in your vs code agent chat:
+The typical workflow involves two steps in your VS Code agent chat:
 
-1. **Critique**: Use a critic tool to analyze code and identify issues
+1. **Analysis**: Use a critic tool to analyze code and identify issues
 2. **Fix**: Apply a fixer strategy to address the identified problems
 
-### Step 1: Critique Code
+### Step 1: Analyze Code
 
-For best results start a new chat to clear context, then write a request like
+For best results, start a new chat to clear context, then write a request like:
 
 ```
 review-design this React component
@@ -20,6 +20,8 @@ review-sql-security app_schema.sql
 ```
 
 ### Step 2: Apply Fixes
+
+Choose one:
 
 ```
 fix-conservative
@@ -30,10 +32,10 @@ fix-zealot
 ## Features
 
 - **36+ Specialized Critics**: Each critic focuses on specific aspects of code quality
-- **3 Fixing Strategies**: Automated methods for addressing critic findings
+- **3 Fixing Strategies**: Methods for addressing critic findings
 - **Explicit Invocation**: Users explicitly choose which critic or fixer to apply to their code
-- **Expert Frameworks**: Uses proven methodologies from the ai-review repository
-- **Two-Step Workflow**: Critique first, then apply appropriate fixing strategy
+- **Proven Methodologies**: Uses established frameworks from the ai-review repository
+- **Two-Step Workflow**: Analysis first, then apply fixing strategy
 
 ## Setup
 
@@ -118,12 +120,12 @@ If Node.js is not in your WSL PATH (e.g., when using NVM), specify the full path
 
 **Important**: Replace `/path/to/your/mcp-review/` with the actual path where you cloned this repository (use Unix-style paths for WSL).
 
-After adding the configuration, restart VS Code. The server will be automatically invoked by VS Code when you use the review tools in Copilot chat.
+After adding the configuration, restart VS Code. The server will be invoked automatically by VS Code when you use the review tools in Copilot chat.
 
-## Available Tools
-The server automatically loads all critic frameworks from the `ai-review/critic` directory and fixer strategies from the `ai-review/fixer` directory.
+## Available MCP Tools
+The server loads all critic methodologies from the `ai-review/critic` directory and fixer strategies from the `ai-review/fixer` directory.
 
-### Critic Tools
+### Critic MCP Tools
 All critics follow the naming pattern `review-<critic-name>` and are organized by category:
 
 ### Design & UI Critics
@@ -177,7 +179,7 @@ All critics follow the naming pattern `review-<critic-name>` and are organized b
 - `review-logicism` - Formal logic and reasoning
 - `review-taylorism` - Workflow and efficiency analysis
 
-### Fixer Tools
+### Fixer MCP Tools
 Each fixer strategy is available as `fix-<strategy-name>`:
 
 - `fix-comment` - Add TODO comments marking issues for later fixing
@@ -205,7 +207,7 @@ For development and debugging, you can run the server manually:
 mcp-review/
 ├── src/           # Server implementation
 ├── tests/         # Test suites
-├── scripts/       # Utility scripts  
+├── scripts/       # Utility scripts
 ├── ai-review/     # Critic and fixer frameworks (submodule)
 └── README.md      # Project documentation
 ```
