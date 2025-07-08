@@ -37,9 +37,16 @@ fix-zealot
 
 ## Setup
 
+### Prerequisites
+- Node.js 18.0 or higher
+- VS Code with GitHub Copilot extension
+
+### Installation
+
 1. Clone with submodules to get critic frameworks:
    ```bash
    git clone --recursive https://github.com/jonels-msft/mcp-review.git
+   cd mcp-review
 
    # OR if already cloned:
    # git submodule update --init --recursive
@@ -50,10 +57,68 @@ fix-zealot
    npm install
    ```
 
-3. Run the server:
-   ```bash
-   npm start
-   ```
+### VS Code Configuration
+
+Add the MCP server to your VS Code settings. Open your VS Code settings (JSON) and add the following to the `mcp.servers` section:
+
+#### For Windows/macOS/Linux (Native)
+
+```json
+{
+    "mcp": {
+        "servers": {
+            "mcp-review": {
+                "command": "node",
+                "args": [
+                    "/path/to/your/mcp-review/src/index.js"
+                ]
+            }
+        }
+    }
+}
+```
+
+#### For WSL (Windows Subsystem for Linux)
+
+When using WSL, VS Code needs to execute the server inside the Linux environment:
+
+```json
+{
+    "mcp": {
+        "servers": {
+            "mcp-review": {
+                "command": "wsl",
+                "args": [
+                    "node",
+                    "/path/to/your/mcp-review/src/index.js"
+                ]
+            }
+        }
+    }
+}
+```
+
+If Node.js is not in your WSL PATH (e.g., when using NVM), specify the full path:
+
+```json
+{
+    "mcp": {
+        "servers": {
+            "mcp-review": {
+                "command": "wsl",
+                "args": [
+                    "/home/username/.nvm/versions/node/v18.20.8/bin/node",
+                    "/path/to/your/mcp-review/src/index.js"
+                ]
+            }
+        }
+    }
+}
+```
+
+**Important**: Replace `/path/to/your/mcp-review/` with the actual path where you cloned this repository (use Unix-style paths for WSL).
+
+After adding the configuration, restart VS Code. The server will be automatically invoked by VS Code when you use the review tools in Copilot chat.
 
 ## Available Tools
 The server automatically loads all critic frameworks from the `ai-review/critic` directory and fixer strategies from the `ai-review/fixer` directory.
@@ -121,10 +186,6 @@ Each fixer strategy is available as `fix-<strategy-name>`:
 
 ## Development
 
-### Running the Server
-- `npm start` - Run the server
-- `npm run dev` - Run in development mode
-
 ### Testing
 - `npm test` - Run all test suites
 - `npm run test:mcp` - Run MCP protocol validation
@@ -133,6 +194,11 @@ Each fixer strategy is available as `fix-<strategy-name>`:
 ### Utilities
 - `npm run status` - Display server capabilities and status
 - `npm run check` - Check VS Code integration readiness
+
+### Manual Testing
+For development and debugging, you can run the server manually:
+- `npm start` - Run the server in standalone mode
+- `npm run dev` - Run in development mode with auto-restart
 
 ### Project Structure
 ```
