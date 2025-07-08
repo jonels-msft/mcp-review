@@ -61,7 +61,14 @@ fix-zealot
 
 ### VS Code Configuration
 
-Add the MCP server to your VS Code settings. Open your VS Code settings (JSON) and add the following to the `mcp.servers` section:
+Add the MCP server to your VS Code settings:
+
+1. Open VS Code settings (JSON):
+   - Press `Ctrl+Shift+P` (Windows/Linux) or `Cmd+Shift+P` (Mac) to open the command palette
+   - Type "Preferences: Open User Settings (JSON)" and select it
+   - This opens your `settings.json` file
+
+2. Add the following to the `mcp.servers` section (create the section if it doesn't exist):
 
 #### For Windows/macOS/Linux (Native)
 
