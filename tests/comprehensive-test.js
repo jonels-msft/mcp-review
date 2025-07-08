@@ -140,7 +140,7 @@ class MCPTester {
       }
 
       // Check that the critic framework content is embedded
-      const expectedCritic = testCase.toolName.replace('critique_', '');
+      const expectedCritic = testCase.toolName.replace('review-', '');
       if (!text.includes(`## ${expectedCritic} Critic Framework:`)) {
         throw new Error(`Response does not include embedded ${expectedCritic} critic framework`);
       }
@@ -202,7 +202,7 @@ class MCPTester {
         {
           id: 2,
           name: 'Design critic with UI code',
-          toolName: 'critique_design',
+          toolName: 'review-design',
           args: { 
             code: 'function createButton() { return "<button onclick=\\"alert(\'clicked\')\\">Click</button>"; }', 
             language: 'javascript',
@@ -212,7 +212,7 @@ class MCPTester {
         {
           id: 3,
           name: 'C memory critic with C code',
-          toolName: 'critique_c-memory',
+          toolName: 'review-c-memory',
           args: { 
             code: 'char* createString() { char* str = malloc(100); strcpy(str, "hello"); return str; }', 
             language: 'c',
@@ -222,7 +222,7 @@ class MCPTester {
         {
           id: 4,
           name: 'Algorithm performance critic',
-          toolName: 'critique_algorithm-performance',
+          toolName: 'review-algorithm-performance',
           args: { 
             code: 'function bubbleSort(arr) { for(let i=0; i<arr.length; i++) { for(let j=0; j<arr.length-1; j++) { if(arr[j] > arr[j+1]) { let temp = arr[j]; arr[j] = arr[j+1]; arr[j+1] = temp; } } } return arr; }', 
             language: 'javascript',
@@ -232,7 +232,7 @@ class MCPTester {
         {
           id: 5,
           name: 'SQL security critic',
-          toolName: 'critique_sql-security',
+          toolName: 'review-sql-security',
           args: { 
             code: 'SELECT * FROM users WHERE username = "' + 'userInput' + '" AND password = "' + 'password' + '"', 
             language: 'sql',
@@ -242,7 +242,7 @@ class MCPTester {
         {
           id: 6,
           name: 'Error handling critic',
-          toolName: 'critique_general-error-handling',
+          toolName: 'review-general-error-handling',
           args: { 
             code: 'function divide(a, b) { return a / b; }', 
             language: 'javascript',

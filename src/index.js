@@ -80,11 +80,11 @@ const server = new Server(
   }
 );
 
-// List available tools
-server.setRequestHandler(ListToolsRequestSchema, async () => {
-  const criticTools = Object.values(critics).map(critic => ({
-    name: `critique_${critic.name}`,
-    description: critic.description,
+// Create user-friendly tool names dynamically
+function createDynamicTools() {
+  const criticTools = Object.keys(critics).map(criticName => ({
+    name: `review-${criticName}`,
+    description: `Review code using the ${criticName} framework from critic/${criticName}.md`,
     inputSchema: {
       type: 'object',
       properties: {
@@ -93,7 +93,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           description: 'The code or project content to review',
         },
         language: {
-          type: 'string',
+          type: 'string', 
           description: 'Programming language or context of the code',
           default: 'unknown',
         },
@@ -103,12 +103,12 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         }
       },
       required: ['code'],
-    },
+    }
   }));
 
-  const fixerTools = Object.values(fixers).map(fixer => ({
-    name: `fix_${fixer.name}`,
-    description: fixer.description,
+  const fixerTools = Object.keys(fixers).map(fixerName => ({
+    name: `fix-${fixerName}`,
+    description: `Apply ${fixerName} fixing strategy from fixer/${fixerName}.md`,
     inputSchema: {
       type: 'object',
       properties: {
@@ -118,11 +118,11 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         },
         critiqueResults: {
           type: 'string',
-          description: 'The results from the critic analysis (issues, suggestions, etc.)',
+          description: 'The results from the critic analysis',
         },
         language: {
           type: 'string',
-          description: 'Programming language or context of the code',
+          description: 'Programming language or context of the code', 
           default: 'unknown',
         },
         filePath: {
@@ -131,28 +131,33 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         }
       },
       required: ['code', 'critiqueResults'],
-    },
+    }
   }));
 
+  return { criticTools, fixerTools };
+}
+
+const { criticTools, fixerTools } = createDynamicTools();
+
+// List available tools
+server.setRequestHandler(ListToolsRequestSchema, async () => {
   return { tools: [...criticTools, ...fixerTools] };
 });
 
-// Handle tool calls
+// Handle tool calls with dynamic parsing
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
 
-  // Check if this is a critic tool
-  if (name.startsWith('critique_')) {
-    const criticName = name.replace('critique_', '');
+  // Parse review-name syntax
+  if (name.startsWith('review-')) {
+    const criticName = name.replace('review-', '');
     const critic = critics[criticName];
     
     if (!critic) {
-      throw new Error(`Unknown critic: ${criticName}`);
+      throw new Error(`Unknown critic: ${criticName}. Available critics: ${Object.keys(critics).join(', ')}`);
     }
 
     const { code, language = 'unknown', filePath = 'unknown' } = args;
-    
-    // Create a comprehensive critique using the critic framework
     const critique = performCritique(critic, code, language, filePath);
     
     return {
@@ -165,18 +170,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     };
   }
 
-  // Check if this is a fixer tool
-  if (name.startsWith('fix_')) {
-    const fixerName = name.replace('fix_', '');
+  // Parse fix-name syntax
+  if (name.startsWith('fix-')) {
+    const fixerName = name.replace('fix-', '');
     const fixer = fixers[fixerName];
     
     if (!fixer) {
-      throw new Error(`Unknown fixer: ${fixerName}`);
+      throw new Error(`Unknown fixer: ${fixerName}. Available fixers: ${Object.keys(fixers).join(', ')}`);
     }
 
     const { code, critiqueResults, language = 'unknown', filePath = 'unknown' } = args;
-    
-    // Apply the fixing strategy to address the critic's issues
     const fixedCode = performFix(fixer, code, critiqueResults, language, filePath);
     
     return {
@@ -189,16 +192,14 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     };
   }
 
-  throw new Error(`Unknown tool: ${name}`);
+  throw new Error(`Unknown tool: ${name}. Use review-<name> or fix-<name> syntax.`);
 });
 
 // Perform critique using the specified critic framework
 function performCritique(critic, code, language, filePath) {
   // Include the critic framework content directly since the agent 
   // won't have access to files outside the user's project workspace
-  const prompt = `Please review the following code using the ${critic.name} critic framework.
-
-## ${critic.name} Critic Framework:
+  const prompt = `## ${critic.name} Critic Framework:
 ${critic.content}
 
 ## Code to Review:
@@ -207,9 +208,7 @@ ${critic.content}
 
 \`\`\`${language}
 ${code}
-\`\`\`
-
-Apply the critic framework above to provide a thorough code review.`;
+\`\`\``;
 
   return prompt;
 }
@@ -217,9 +216,7 @@ Apply the critic framework above to provide a thorough code review.`;
 // Perform fix using the specified fixer strategy
 function performFix(fixer, code, critiqueResults, language, filePath) {
   // Include the fixer strategy content directly
-  const prompt = `Apply the ${fixer.name} fixing strategy to address the issues identified by the critic.
-
-## ${fixer.name} Fixer Strategy:
+  const prompt = `## ${fixer.name} Fixer Strategy:
 ${fixer.content}
 
 ## Original Code:
@@ -231,10 +228,7 @@ ${code}
 \`\`\`
 
 ## Critic Analysis Results:
-${critiqueResults}
-
-## Instructions:
-Apply the ${fixer.name} strategy above to fix the code based on the critic's findings. Return the modified code with appropriate changes according to the strategy.`;
+${critiqueResults}`;
 
   return prompt;
 }

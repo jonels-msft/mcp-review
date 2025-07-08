@@ -34,65 +34,65 @@ A comprehensive Model Context Protocol (MCP) server that provides specialized co
 The server automatically loads all critic frameworks from the `ai-review/critic` directory and fixer strategies from the `ai-review/fixer` directory. 
 
 ### Critic Tools
-Each critic is available as `critique_<critic-name>`:
+Each critic is available as `review-<critic-name>`:
 
 ### Design & UI Critics
-- `critique_design` - UI and user experience review
-- `critique_color` - Color usage and accessibility
-- `critique_data-visualization` - Charts and data presentation
+- `review-design` - UI and user experience review
+- `review-color` - Color usage and accessibility
+- `review-data-visualization` - Charts and data presentation
 
 ### Security Critics
-- `critique_sql-security` - SQL injection and database security
-- `critique_sql-data-integrity` - Data validation and constraints
+- `review-sql-security` - SQL injection and database security
+- `review-sql-data-integrity` - Data validation and constraints
 
 ### Performance Critics
-- `critique_algorithm-performance` - Algorithm efficiency analysis
-- `critique_algorithm-correctness` - Algorithm correctness verification
-- `critique_logging-performance` - Logging overhead analysis
+- `review-algorithm-performance` - Algorithm efficiency analysis
+- `review-algorithm-correctness` - Algorithm correctness verification
+- `review-logging-performance` - Logging overhead analysis
 
 ### Memory & Resource Management
-- `critique_c-memory` - C memory management review
-- `critique_c-error-handling` - C error handling patterns
-- `critique_c-portability` - Cross-platform C code
+- `review-c-memory` - C memory management review
+- `review-c-error-handling` - C error handling patterns
+- `review-c-portability` - Cross-platform C code
 
 ### Error Handling
-- `critique_general-error-handling` - Generic error handling best practices
-- `critique_procedural-error` - Procedural error management
+- `review-general-error-handling` - Generic error handling best practices
+- `review-procedural-error` - Procedural error management
 
 ### Data & Logic
-- `critique_procedural-data` - Data structure and flow analysis
-- `critique_procedural-functions` - Function design and organization
-- `critique_procedural-flow` - Control flow analysis
-- `critique_floating-point` - Numerical precision and floating-point issues
-- `critique_datetime` - Date/time handling correctness
-- `critique_unicode` - Unicode and internationalization
+- `review-procedural-data` - Data structure and flow analysis
+- `review-procedural-functions` - Function design and organization
+- `review-procedural-flow` - Control flow analysis
+- `review-floating-point` - Numerical precision and floating-point issues
+- `review-datetime` - Date/time handling correctness
+- `review-unicode` - Unicode and internationalization
 
 ### Standards & Compliance
-- `critique_sql-standard-compliance` - SQL standard adherence
-- `critique_posix` - POSIX compliance and portability
-- `critique_unix-interface` - Unix philosophy and interfaces
+- `review-sql-standard-compliance` - SQL standard adherence
+- `review-posix` - POSIX compliance and portability
+- `review-unix-interface` - Unix philosophy and interfaces
 
 ### Development Practices
-- `critique_logging-practices` - Logging strategy and implementation
-- `critique_terminology` - Naming conventions and clarity
-- `critique_writing` - Documentation and comments
-- `critique_estimation` - Complexity and effort estimation
-- `critique_benchmarking` - Performance measurement practices
+- `review-logging-practices` - Logging strategy and implementation
+- `review-terminology` - Naming conventions and clarity
+- `review-writing` - Documentation and comments
+- `review-estimation` - Complexity and effort estimation
+- `review-benchmarking` - Performance measurement practices
 
 ### Specialized Critics
-- `critique_meson` - Meson build system review
-- `critique_probability` - Statistical and probabilistic code
-- `critique_relational` - Database design and relationships
-- `critique_prompting` - AI prompt engineering
-- `critique_logicism` - Formal logic and reasoning
-- `critique_taylorism` - Workflow and efficiency analysis
+- `review-meson` - Meson build system review
+- `review-probability` - Statistical and probabilistic code
+- `review-relational` - Database design and relationships
+- `review-prompting` - AI prompt engineering
+- `review-logicism` - Formal logic and reasoning
+- `review-taylorism` - Workflow and efficiency analysis
 
 ### Fixer Tools
-Each fixer strategy is available as `fix_<strategy-name>`:
+Each fixer strategy is available as `fix-<strategy-name>`:
 
-- `fix_comment` - Add TODO comments marking issues for later fixing
-- `fix_conservative` - Fix only clear-cut, low-risk issues that won't require cascading changes
-- `fix_zealot` - Pick one important issue and fix it comprehensively, even if it requires major reorganization
+- `fix-comment` - Add TODO comments marking issues for later fixing
+- `fix-conservative` - Fix only clear-cut, low-risk issues that won't require cascading changes
+- `fix-zealot` - Pick one important issue and fix it comprehensively, even if it requires major reorganization
 
 ## Workflow
 
@@ -103,16 +103,16 @@ The typical workflow involves two steps:
 
 ### Step 1: Critique Code
 ```
-"Use critique_design to review this React component"
-"Apply critique_c-memory to analyze this malloc usage" 
-"Run critique_sql-security on this database query"
+"Use review-design to analyze this React component"
+"Apply review-c-memory to check this malloc usage" 
+"Run review-sql-security on this database query"
 ```
 
 ### Step 2: Apply Fixes
 ```
-"Use fix_conservative to address the issues found"
-"Apply fix_comment to mark the problems for later"
-"Use fix_zealot to completely fix the memory management issue"
+"Use fix-conservative to address the issues found"
+"Apply fix-comment to mark the problems for later"
+"Use fix-zealot to completely fix the memory management issue"
 ```
 
 ## Usage
@@ -131,10 +131,12 @@ The typical workflow involves two steps:
 ### Example Usage with VS Code Copilot
 
 ```
-"Use critique_design to review this React component"
-"Apply critique_c-memory to analyze this malloc usage" 
-"Run critique_sql-security on this database query"
-"Use critique_algorithm-performance to check this sorting function"
+"Use review-design to analyze this React component"
+"Apply review-c-memory to check this malloc usage" 
+"Run review-sql-security on this database query"
+"Use review-algorithm-performance to optimize this sorting function"
+"Apply fix-conservative to address the issues found"
+"Use fix-zealot to completely restructure this code"
 ```
 
 ## How It Works
