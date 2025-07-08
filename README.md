@@ -70,7 +70,8 @@ Add the MCP server to your VS Code settings:
 
 2. Add the following to the `mcp.servers` section (create the section if it doesn't exist):
 
-#### For Windows/macOS/Linux (Native)
+<details open>
+<summary><strong>For Windows/macOS/Linux (Native)</strong></summary>
 
 ```json
 {
@@ -86,8 +87,10 @@ Add the MCP server to your VS Code settings:
     }
 }
 ```
+</details>
 
-#### For WSL (Windows Subsystem for Linux)
+<details>
+<summary><strong>For WSL (Windows Subsystem for Linux)</strong></summary>
 
 When using WSL, VS Code executes the server inside the Linux environment:
 
@@ -106,6 +109,10 @@ When using WSL, VS Code executes the server inside the Linux environment:
     }
 }
 ```
+</details>
+
+<details>
+<summary><strong>For WSL with NVM (Node Version Manager)</strong></summary>
 
 If Node.js is not in your WSL PATH (e.g., when using NVM), specify the full path:
 
@@ -124,6 +131,7 @@ If Node.js is not in your WSL PATH (e.g., when using NVM), specify the full path
     }
 }
 ```
+</details>
 
 **Important**: Replace `/path/to/your/mcp-review/` with the actual path where you cloned this repository (use Unix-style paths for WSL).
 
