@@ -1,17 +1,17 @@
 # Specialized Code Review Tools for Copilot
 
-A Model Context Protocol (MCP) server that provides specialized code review capabilities using established critic methodologies and fixing strategies to address identified issues.
+A Model Context Protocol (MCP) server that provides specialized code review capabilities using established critic methodologies and fixing strategies.
 
 ## Example Usage
 
-The typical workflow involves two steps in your VS Code agent chat:
+The workflow has two steps in your VS Code agent chat:
 
 1. **Analysis**: Use a critic tool to analyze code and identify issues
 2. **Fix**: Apply a fixer strategy to address the identified problems
 
 ### Step 1: Analyze Code
 
-For best results, start a new chat to clear context, then write a request like:
+Start a new chat to clear context, then write a request like:
 
 ```
 review-design this React component
@@ -34,7 +34,7 @@ fix-zealot
 - **36+ Specialized Critics**: Each critic focuses on specific aspects of code quality
 - **3 Fixing Strategies**: Methods for addressing critic findings
 - **Explicit Invocation**: Users explicitly choose which critic or fixer to apply to their code
-- **Proven Methodologies**: Uses established frameworks from the ai-review repository
+- **Established Methodologies**: Uses frameworks from the ai-review repository
 - **Two-Step Workflow**: Analysis first, then apply fixing strategy
 
 ## Setup
@@ -82,7 +82,7 @@ Add the MCP server to your VS Code settings. Open your VS Code settings (JSON) a
 
 #### For WSL (Windows Subsystem for Linux)
 
-When using WSL, VS Code needs to execute the server inside the Linux environment:
+When using WSL, VS Code executes the server inside the Linux environment:
 
 ```json
 {
@@ -120,7 +120,7 @@ If Node.js is not in your WSL PATH (e.g., when using NVM), specify the full path
 
 **Important**: Replace `/path/to/your/mcp-review/` with the actual path where you cloned this repository (use Unix-style paths for WSL).
 
-After adding the configuration, restart VS Code. The server will be invoked automatically by VS Code when you use the review tools in Copilot chat.
+After adding the configuration, restart VS Code. VS Code will invoke the server automatically when you use the review tools in Copilot chat.
 
 ## Available MCP Tools
 The server loads all critic methodologies from the `ai-review/critic` directory and fixer strategies from the `ai-review/fixer` directory.
@@ -148,7 +148,7 @@ All critics follow the naming pattern `review-<critic-name>` and are organized b
 - `review-c-portability` - Cross-platform C code
 
 ### Error Handling
-- `review-general-error-handling` - Generic error handling best practices
+- `review-general-error-handling` - Error handling best practices
 - `review-procedural-error` - Procedural error management
 
 ### Data & Logic
@@ -180,7 +180,7 @@ All critics follow the naming pattern `review-<critic-name>` and are organized b
 - `review-taylorism` - Workflow and efficiency analysis
 
 ### Fixer MCP Tools
-Each fixer strategy is available as `fix-<strategy-name>`:
+Three fixer strategies are available:
 
 - `fix-comment` - Add TODO comments marking issues for later fixing
 - `fix-conservative` - Fix only clear-cut, low-risk issues that won't require cascading changes
@@ -198,7 +198,7 @@ Each fixer strategy is available as `fix-<strategy-name>`:
 - `npm run check` - Check VS Code integration readiness
 
 ### Manual Testing
-For development and debugging, you can run the server manually:
+To debug, you can run the server manually:
 - `npm start` - Run the server in standalone mode
 - `npm run dev` - Run in development mode with auto-restart
 
