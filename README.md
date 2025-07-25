@@ -2,6 +2,10 @@
 
 A Model Context Protocol (MCP) server that provides specialized code review capabilities using established critic methodologies and fixing strategies.
 
+<a href="https://glama.ai/mcp/servers/@jonels-msft/mcp-review">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@jonels-msft/mcp-review/badge" alt="Review Server MCP server" />
+</a>
+
 ## Example Usage
 
 The workflow has two steps in your VS Code agent chat:
