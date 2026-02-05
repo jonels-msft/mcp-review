@@ -1,5 +1,8 @@
 # Specialized Code Review Tools for Copilot
 
+> [!WARNING]
+> **This project is deprecated.** The functionality is now more easily expressed as slash commands in GitHub Copilot using `chat.promptFilesLocations`.
+
 A Model Context Protocol (MCP) server that provides specialized code review capabilities using established critic methodologies and fixing strategies.
 
 ## Example Usage
